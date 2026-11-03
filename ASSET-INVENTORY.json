@@ -1,0 +1,18 @@
+[
+  {
+    "original": "public/images/originals/1000667288.jpg",
+    "sha256": "fb82ef97448108ce7682b4e8aaeef3ec17698fcae5e6f082765297c9af745565",
+    "bytes": 101600,
+    "width": 1280,
+    "height": 720,
+    "optimized": "public/images/optimized/1000667288.webp"
+  },
+  {
+    "original": "public/images/originals/1000666717.jpg",
+    "sha256": "a5fae142d11694d1bd3bb7f59561ac0b152c3630628c3419101001bd2fb4dc62",
+    "bytes": 110294,
+    "width": 1280,
+    "height": 960,
+    "optimized": "public/images/optimized/1000666717.webp"
+  }
+]

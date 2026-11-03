@@ -1,0 +1,35 @@
+name: Deploy approved website to Cloudflare Pages
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Require confirmed production configuration
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          CLOUDFLARE_PROJECT: ${{ vars.CLOUDFLARE_PROJECT }}
+        run: |
+          test -n "$SITE_URL"
+          test -n "$CLOUDFLARE_PROJECT"
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+      - run: node scripts/check-build.mjs
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PROJECT }}
