@@ -34,7 +34,7 @@ jobs:
         run: npm ci
 
       - name: Format the prerender script
-        run: npx prettier --write scripts/prerender.mjs
+        run: npx prettier --write scripts/prerender.mjs src/App.tsx src/main.tsx
       - name: Check formatting
         run: npm run format:check
 
