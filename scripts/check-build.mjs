@@ -16,6 +16,7 @@ const routes = [
   '/contact',
 ];
 const titles = new Set();
+const publicBase = (process.env.PUBLIC_BASE || '').replace(/\/+$/, '');
 for (const route of routes) {
   const html = await readFile(`dist${route === '/' ? '' : route}/index.html`, 'utf8');
   assert.equal((html.match(/<h1[ >]/g) || []).length, 1, `${route}: one h1`);
@@ -29,7 +30,11 @@ for (const route of routes) {
   assert.equal(JSON.parse(schema)['@type'], 'EducationalOrganization');
   for (const [, asset] of html.matchAll(/(?:src|href)="(\/[^"#?]*)/g)) {
     const clean = asset.split('?')[0];
-    let target = path.join('dist', clean);
+    const localPath =
+      publicBase && (clean === publicBase || clean.startsWith(`${publicBase}/`))
+        ? clean.slice(publicBase.length) || '/'
+        : clean;
+    let target = path.join('dist', localPath.replace(/^\/+/, ''));
     try {
       if ((await stat(target)).isDirectory()) target = path.join(target, 'index.html');
     } catch {
