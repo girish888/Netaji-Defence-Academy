@@ -15,19 +15,14 @@ try {
   const { admissionsYear } = await server.ssrLoadModule('/src/lib/logic.ts');
   const builtYear = admissionsYear();
   const template = await readFile('dist/index.html', 'utf8');
-  const publicBase = (process.env.PUBLIC_BASE || '').replace(/\/$/, '');
+  const publicBase = (process.env.PUBLIC_BASE || '').replace(/\/+$/, '');
   const rewriteForBase = (value) => {
     if (!publicBase) return value;
-    return value
-      .replaceAll('src="/assets/', `src="${publicBase}/assets/`)
-      .replaceAll('href="/assets/', `href="${publicBase}/assets/`)
-      .replaceAll('src="/images/', `src="${publicBase}/images/`)
-      .replaceAll('href="/images/', `href="${publicBase}/images/`)
-      .replace(
-        /href="\/(about|courses|training|gallery|hostel|notifications|registration|contact)/g,
-        `href="${publicBase}/$1`,
-      )
-      .replaceAll('href="/"', `href="${publicBase || ''}/"`);
+    const basePath = publicBase.replace(/^\//, '');
+    return value.replace(/\b(href|src)="\/(?!\/)([^"]*)"/g, (match, attribute, path) => {
+      if (path === basePath || path.startsWith(`${basePath}/`)) return match;
+      return `${attribute}="${publicBase}/${path}"`;
+    });
   };
   if (publicBase) {
     for (const asset of await readdir('dist/assets')) {
@@ -36,7 +31,7 @@ try {
       const contents = await readFile(assetPath, 'utf8');
       await writeFile(
         assetPath,
-        contents.replaceAll('/images/', `${publicBase}/images/`),
+        contents.replace(/(?<!Netaji-Defence-Academy)\/images\//g, `${publicBase}/images/`),
       );
     }
   }
@@ -68,9 +63,8 @@ try {
       page.path === '/'
         ? 'Netaji Defence Academy | NDA, Army, Navy & Police Training'
         : `${page.label} | Netaji Defence Academy`;
-    const canonical = origin
-      ? `${origin}${page.path === '/' ? '/' : `${page.path}/`}`
-      : '';
+    const canonicalPath = `${publicBase}${page.path === '/' ? '/' : `${page.path}/`}`;
+    const canonical = origin ? `${origin}${canonicalPath}` : '';
     const metadata = [
       ...(page.path === '/'
         ? [
@@ -85,7 +79,7 @@ try {
         ? [
             `<link rel="canonical" href="${canonical}" />`,
             `<meta property="og:url" content="${canonical}" />`,
-            `<meta property="og:image" content="${origin}/images/optimized/NDA-2.jpeg" />`,
+            `<meta property="og:image" content="${origin}${publicBase}/images/optimized/NDA-2.jpeg" />`,
           ]
         : []),
       `<script type="application/ld+json">${jsonLd}</script>`,
