@@ -69,7 +69,9 @@ try {
       page.path === '/'
         ? 'Netaji Defence Academy | NDA, Army, Navy & Police Training'
         : `${page.label} | Netaji Defence Academy`;
-    const canonicalPath = `${publicBase}${page.path === '/' ? '/' : `${page.path}/`}`;
+    const canonicalPath = `${publicBase}${
+      page.path === '/' ? '/' : `${page.path}/`
+    }`;
     const canonical = origin ? `${origin}${canonicalPath}` : '';
     const metadata = [
       ...(page.path === '/'
