@@ -19,10 +19,13 @@ try {
   const rewriteForBase = (value) => {
     if (!publicBase) return value;
     const basePath = publicBase.replace(/^\//, '');
-    return value.replace(/\b(href|src)="\/(?!\/)([^"]*)"/g, (match, attribute, path) => {
-      if (path === basePath || path.startsWith(`${basePath}/`)) return match;
-      return `${attribute}="${publicBase}/${path}"`;
-    });
+    return value.replace(
+      /\b(href|src)="\/(?!\/)([^"]*)"/g,
+      (match, attribute, path) => {
+        if (path === basePath || path.startsWith(`${basePath}/`)) return match;
+        return `${attribute}="${publicBase}/${path}"`;
+      },
+    );
   };
   if (publicBase) {
     for (const asset of await readdir('dist/assets')) {
@@ -31,7 +34,10 @@ try {
       const contents = await readFile(assetPath, 'utf8');
       await writeFile(
         assetPath,
-        contents.replace(/(?<!Netaji-Defence-Academy)\/images\//g, `${publicBase}/images/`),
+        contents.replace(
+          /(?<!Netaji-Defence-Academy)\/images\//g,
+          `${publicBase}/images/`,
+        ),
       );
     }
   }
@@ -112,13 +118,13 @@ try {
   await writeFile(
     'dist/robots.txt',
     origin
-      ? `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`
+      ? `User-agent: *\nAllow: /\nSitemap: ${origin}${publicBase}/sitemap.xml\n`
       : 'User-agent: *\nAllow: /\n',
   );
   if (origin)
     await writeFile(
       'dist/sitemap.xml',
-      `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map((page) => `<url><loc>${origin}${page.path === '/' ? '/' : `${page.path}/`}</loc></url>`).join('\n')}</urlset>`,
+      `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map((page) => `<url><loc>${origin}${publicBase}${page.path === '/' ? '/' : `${page.path}/`}</loc></url>`).join('\n')}</urlset>`,
     );
   else
     console.warn(
