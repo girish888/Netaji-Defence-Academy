@@ -52,6 +52,8 @@ jobs:
 
       - name: Validate generated website
         run: node scripts/check-build.mjs
+        env:
+          PUBLIC_BASE: /Netaji-Defence-Academy
 
       - name: Disable Jekyll processing
         run: touch dist/.nojekyll
