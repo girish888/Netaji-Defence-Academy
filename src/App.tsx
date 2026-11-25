@@ -31,8 +31,16 @@ const components = {
 };
 
 export default function App({ path }: { path: string }) {
+  // GitHub Pages project sites include the repository name in the browser path.
+  // Strip Vite's configured base before resolving the application's route.
+  const basePath = import.meta.env.BASE_URL.replace(/\/+$/, '');
+  const appPath = basePath && path.startsWith(`${basePath}/`)
+    ? path.slice(basePath.length)
+    : path === basePath
+      ? '/'
+      : path;
   const normalized =
-    path
+    appPath
       .replace(/^\/dist(?:\/index\.html)?/, '')
       .replace(/\/index\.html$/, '')
       .replace(/\/$/, '') || '/';
