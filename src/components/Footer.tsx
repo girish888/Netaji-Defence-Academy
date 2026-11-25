@@ -1,4 +1,4 @@
-import { ArrowUpRight, Shield } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { academy } from '../data/site';
 
 export default function Footer() {
@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="footer-grid container">
         <div>
           <div className="footer-brand">
-            <Shield size={34} />
+            <img src="/images/optimized/NDA-2.jpeg" alt="Netaji Defence Academy emblem" />
             <span>
               NETAJI<small>DEFENCE ACADEMY</small>
             </span>
@@ -24,6 +24,7 @@ export default function Footer() {
           <a href="/about">About the academy</a>
           <a href="/courses">Our courses</a>
           <a href="/training">Training program</a>
+          <a href="/achievements">Achievements</a>
           <a href="/gallery">Gallery</a>
         </div>
         <div>
@@ -36,6 +37,7 @@ export default function Footer() {
         <div className="footer-enquiry">
           <h2>Your future starts with a step.</h2>
           <p>Explore your options. Ask your questions. Start preparing.</p>
+          {academy.phone && <a href={`tel:${academy.phone}`}>Call {academy.phone}</a>}
           <a href="/registration">
             Make an enquiry <ArrowUpRight size={17} />
           </a>

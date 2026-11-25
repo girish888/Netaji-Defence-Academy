@@ -1,6 +1,7 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowUpRight, Check, Copy, ShieldCheck } from 'lucide-react';
 import { academy, courses } from '../data/site';
+import { indiaStates } from '../data/india';
 import { whatsappMessage, whatsappUrl } from '../lib/logic';
 
 const fields = [
@@ -31,11 +32,21 @@ export default function Registration() {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const [link, setLink] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState('');
+  const formRef = useRef<HTMLFormElement>(null);
+  const reviewRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (message)
+      reviewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [message]);
 
   function prepareEnquiry(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
     setCopied(false);
+    setLink('');
     const data = new FormData(event.currentTarget);
     if (data.get('website')) return;
     const birthDate = String(data.get('Date of Birth'));
@@ -56,7 +67,7 @@ export default function Registration() {
     }
     const prepared = whatsappMessage(details);
     setMessage(prepared);
-    // The student explicitly opens and sends the reviewed message; no automatic transmission.
+    setIsEditing(false);
     if (academy.whatsapp) {
       try {
         setLink(whatsappUrl(academy.whatsapp, prepared));
@@ -66,6 +77,15 @@ export default function Registration() {
         );
       }
     }
+  }
+
+  function editEnquiry() {
+    setIsEditing(true);
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function sendToWhatsApp() {
+    if (link) window.location.assign(link);
   }
 
   async function copyMessage() {
@@ -121,7 +141,7 @@ export default function Registration() {
         </div>
       </aside>
       <div>
-        <form className="registration-form" onSubmit={prepareEnquiry}>
+        <form ref={formRef} className="registration-form" onSubmit={prepareEnquiry}>
           <div className="form-heading">
             <h2>Admission enquiry</h2>
             <span>* Required fields</span>
@@ -131,24 +151,43 @@ export default function Registration() {
               <label key={field.name}>
                 {field.name}
                 {field.required ? ' *' : ' (optional)'}
-                <input
-                  name={field.name}
-                  type={field.type}
-                  autoComplete={field.autoComplete}
-                  required={field.required}
-                  maxLength={field.type === 'date' ? undefined : 120}
-                  pattern={field.type === 'tel' ? '[6-9][0-9]{9}' : undefined}
-                  title={
-                    field.type === 'tel'
-                      ? 'Enter a 10-digit Indian mobile number starting with 6–9.'
-                      : undefined
-                  }
-                />
+                {field.name === 'State' ? (
+                  <select name={field.name} required defaultValue="">
+                    <option value="" disabled>
+                      Select your state or UT
+                    </option>
+                    {indiaStates.map((state) => (
+                      <option key={state}>{state}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    name={field.name}
+                    type={field.type}
+                    autoComplete={field.autoComplete}
+                    required={field.required}
+                    maxLength={field.type === 'date' ? undefined : 120}
+                    pattern={field.type === 'tel' ? '[6-9][0-9]{9}' : undefined}
+                    title={
+                      field.type === 'tel'
+                        ? 'Enter a 10-digit Indian mobile number starting with 6–9.'
+                        : undefined
+                    }
+                    placeholder={
+                      field.name === 'District' ? 'Enter your district' : undefined
+                    }
+                  />
+                )}
               </label>
             ))}
             <label>
               Preferred Course *
-              <select name="Preferred Course" required defaultValue="">
+              <select
+                name="Preferred Course"
+                required
+                value={selectedCourse}
+                onChange={(event) => setSelectedCourse(event.target.value)}
+              >
                 <option value="" disabled>
                   Select a course
                 </option>
@@ -156,6 +195,12 @@ export default function Registration() {
                   <option key={course.id}>{course.name}</option>
                 ))}
               </select>
+              {selectedCourse && (
+                <span className="age-criteria">
+                  <strong>Age guidance:</strong>{' '}
+                  {courses.find((course) => course.name === selectedCourse)?.ageCriteria}
+                </span>
+              )}
             </label>
             <label>
               Gender *
@@ -209,29 +254,40 @@ export default function Registration() {
             </p>
           )}
           <button className="button" type="submit">
-            Review registration enquiry <ArrowUpRight size={18} />
+            {isEditing ? 'Update & review enquiry' : 'Review registration enquiry'}{' '}
+            <ArrowUpRight size={18} />
           </button>
         </form>
         {message && (
-          <section className="review-panel" aria-live="polite">
+          <section ref={reviewRef} className="review-panel" aria-live="polite">
             <h2>Review your enquiry</h2>
+            <p className="review-intro">
+              Check everything below. Edit any detail before sending it directly to the
+              academy’s WhatsApp.
+            </p>
             <pre tabIndex={0}>{message}</pre>
             <div className="review-actions">
               {link ? (
-                <a
+                <button
                   className="button button-gold"
-                  href={link}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  type="button"
+                  onClick={sendToWhatsApp}
                 >
-                  Open WhatsApp <ArrowUpRight size={18} />
-                </a>
+                  Send directly to WhatsApp <ArrowUpRight size={18} />
+                </button>
               ) : (
                 <p className="verification-note">
                   Sending is unavailable until the academy confirms its WhatsApp number.
                   Your enquiry has not been submitted.
                 </p>
               )}
+              <button
+                className="button button-outline"
+                type="button"
+                onClick={editEnquiry}
+              >
+                Edit details
+              </button>
               <button
                 className="button button-outline"
                 type="button"
@@ -242,8 +298,8 @@ export default function Registration() {
               </button>
             </div>
             <p className="fine-print">
-              If WhatsApp is unavailable, copy the enquiry and share it using a confirmed
-              academy contact.
+              Your details are not saved by this website. WhatsApp opens with the reviewed
+              message ready for you to send.
             </p>
           </section>
         )}

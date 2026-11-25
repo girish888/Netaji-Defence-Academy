@@ -13,7 +13,7 @@ export default function Training() {
           </h2>
         </div>
         <p className="section-aside">
-          Explore the five training areas in the academy brief. Schedules, coaching and
+          Explore the six training areas in the academy brief. Schedules, coaching and
           facility photographs await confirmation.
         </p>
       </div>

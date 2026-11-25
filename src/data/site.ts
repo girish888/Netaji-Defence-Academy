@@ -2,8 +2,8 @@ export const academy = {
   name: 'Netaji Defence Academy',
   tagline: 'Your Dream, Our Mission, One Nation',
   // Populate only with client-confirmed details before enabling public enquiries.
-  whatsapp: '',
-  phone: '',
+  whatsapp: '919505222219',
+  phone: '9505222219',
   email: '',
   address: '',
   mapUrl: '',
@@ -30,6 +30,12 @@ export const pages = [
     description: 'Explore defence and police preparation pathways.',
   },
   {
+    path: '/courses-poster',
+    label: 'Courses Poster',
+    title: 'Courses and recruitment pathways.',
+    description: 'A complete course guide by qualification and age category.',
+  },
+  {
     path: '/courses/others',
     label: 'Other Courses',
     title: 'More paths. One ambition.',
@@ -37,10 +43,16 @@ export const pages = [
   },
   {
     path: '/training',
-    label: 'Our Training Program',
+    label: 'Training & Facilities',
     title: 'Build strength. Develop discipline.',
     description:
-      'Explore running, rope climbing, pull-ups, agility and classroom preparation.',
+      'Explore running, rope climbing, pull-ups, agility, cross country and classroom preparation.',
+  },
+  {
+    path: '/achievements',
+    label: 'Achievements',
+    title: 'Progress with purpose.',
+    description: 'Verified academy achievements and student success information.',
   },
   {
     path: '/gallery',
@@ -86,6 +98,8 @@ export const courses = [
     description:
       'Prepare for the written examination and explore the SSB selection process for the National Defence Academy.',
     subjects: 'Mathematics · General Ability · SSB awareness',
+    ageCriteria:
+      'NDA/NA age is batch-specific. For NDA II 2026, the official DOB window is 01 January 2008 to 01 January 2011.',
   },
   {
     id: 'navy',
@@ -96,6 +110,8 @@ export const courses = [
     description:
       'Explore naval recruitment pathways and prepare for the academic and physical requirements of the relevant entry.',
     subjects: 'Science · Mathematics · Physical readiness',
+    ageCriteria:
+      'Agniveer Navy SSR/MR: commonly 17½–21 years; NDA/other Navy entries use the age window in the relevant batch notice.',
   },
   {
     id: 'air-force',
@@ -106,6 +122,8 @@ export const courses = [
     description:
       'Work towards air force recruitment with focused academic preparation and physical readiness.',
     subjects: 'English · Reasoning · Science fundamentals',
+    ageCriteria:
+      'Agniveer Vayu: commonly 17½–21 years; the exact DOB window is fixed by each intake notification.',
   },
   {
     id: 'army',
@@ -116,6 +134,8 @@ export const courses = [
     description:
       'Build the academic foundations and physical discipline needed to pursue army recruitment pathways.',
     subjects: 'General knowledge · Reasoning · Fitness',
+    ageCriteria:
+      'Agniveer Army: commonly 17½–21 years; other Army entries use the age window in the relevant batch notice.',
   },
   {
     id: 'police',
@@ -126,16 +146,31 @@ export const courses = [
     description:
       'Explore police and paramilitary preparation, including State Police — Andhra Pradesh (AP) and Telangana (TG).',
     subjects: 'General studies · Arithmetic · Physical preparation',
+    ageCriteria:
+      'Varies by State Police notification. Confirm the official state recruitment notice before applying.',
+  },
+  {
+    id: 'ssc-gd',
+    name: 'SSC GD Constable',
+    short: 'SSC GD',
+    number: '06',
+    icon: 'badge',
+    description:
+      'Prepare for SSC Constable (GD) recruitment in CAPFs, NIA, SSF and Rifleman (GD) in Assam Rifles.',
+    subjects: 'General knowledge · Reasoning · Mathematics · English/Hindi · Fitness',
+    ageCriteria:
+      '18–23 years for SSC GD 2026, measured on 1 January 2026. Category relaxations may apply.',
   },
   {
     id: 'others',
     name: 'Other Courses',
     short: 'Others',
-    number: '06',
+    number: '07',
     icon: 'compass',
     description:
       'Looking for another pathway? Additional course offerings will be listed after academy confirmation.',
     subjects: 'Course details awaiting confirmation',
+    ageCriteria: 'Depends on the official notification for the selected pathway.',
   },
 ];
 
@@ -148,8 +183,14 @@ export const facilities = [
   { name: 'Pull-Ups', description: 'Progressive strength and controlled movement.' },
   { name: 'Zigzag Running', description: 'Agility, balance and changes of direction.' },
   {
+    name: 'Cross Country',
+    description:
+      'Outdoor endurance, games and self-defence practice for all-round readiness.',
+  },
+  {
     name: 'Classroom',
-    description: 'Academic foundations and focused examination preparation.',
+    description:
+      'Technical and non-technical course teaching with focused examination preparation.',
   },
 ];
 
@@ -161,7 +202,7 @@ export const galleryImages = [
     alt: 'Students in a classroom with Indian Defence Academy branding; supplied reference only',
   },
   {
-    src: '/images/optimized/1000666717.webp',
+    src: '/images/optimized/NDA3.jpeg',
     title: 'Netaji Defence Academy — building exterior',
     category: 'Campus',
     alt: 'Building exterior with a Netaji Defence Academy sign above the entrance',

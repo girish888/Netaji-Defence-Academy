@@ -8,6 +8,7 @@ const routes = [
   '/courses',
   '/courses/others',
   '/training',
+  '/achievements',
   '/gallery',
   '/hostel',
   '/notifications',
@@ -39,5 +40,5 @@ for (const route of routes) {
 }
 assert.ok(!(await readFile('dist/_headers', 'utf8')).includes('PLACEHOLDER'));
 console.log(
-  'PASS: 10 prerendered pages, headings, titles, descriptions, JSON-LD, internal links, image paths and generated CSP.',
+  'PASS: prerendered pages, headings, titles, descriptions, JSON-LD, internal links, image paths and generated CSP.',
 );

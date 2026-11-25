@@ -23,7 +23,7 @@ export default function About() {
         </div>
         <figure className="about-image">
           <img
-            src="/images/optimized/1000666717.webp"
+            src="/images/optimized/NDA-2.jpeg"
             alt="Client-supplied reference for the academy"
             width="1280"
             height="960"

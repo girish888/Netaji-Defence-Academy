@@ -23,7 +23,10 @@ try {
       .replaceAll('href="/assets/', `href="${publicBase}/assets/`)
       .replaceAll('src="/images/', `src="${publicBase}/images/`)
       .replaceAll('href="/images/', `href="${publicBase}/images/`)
-      .replace(/href="\/(about|courses|training|gallery|hostel|notifications|registration|contact)/g, `href="${publicBase}/$1`)
+      .replace(
+        /href="\/(about|courses|training|gallery|hostel|notifications|registration|contact)/g,
+        `href="${publicBase}/$1`,
+      )
       .replaceAll('href="/"', `href="${publicBase || ''}/"`);
   };
   if (publicBase) {
@@ -31,7 +34,10 @@ try {
       if (!/\.(css|js)$/.test(asset)) continue;
       const assetPath = `dist/assets/${asset}`;
       const contents = await readFile(assetPath, 'utf8');
-      await writeFile(assetPath, contents.replaceAll('/images/', `${publicBase}/images/`));
+      await writeFile(
+        assetPath,
+        contents.replaceAll('/images/', `${publicBase}/images/`),
+      );
     }
   }
   await writeFile(
@@ -68,7 +74,7 @@ try {
     const metadata = [
       ...(page.path === '/'
         ? [
-            '<link rel="preload" as="image" href="/images/optimized/1000666717.webp" fetchpriority="high" />',
+            '<link rel="preload" as="image" href="/images/optimized/NDA-2.jpeg" fetchpriority="high" />',
           ]
         : []),
       `<meta name="description" content="${escape(page.description)}" />`,
@@ -79,20 +85,22 @@ try {
         ? [
             `<link rel="canonical" href="${canonical}" />`,
             `<meta property="og:url" content="${canonical}" />`,
-            `<meta property="og:image" content="${origin}/images/optimized/1000666717.webp" />`,
+            `<meta property="og:image" content="${origin}/images/optimized/NDA-2.jpeg" />`,
           ]
         : []),
       `<script type="application/ld+json">${jsonLd}</script>`,
     ].join('\n');
-    const html = rewriteForBase(template
-      .replace(
-        '<title>Netaji Defence Academy</title>',
-        `<title>${escape(title)}</title>\n${metadata}`,
-      )
-      .replace(
-        '<div id="root"></div>',
-        `<div id="root" data-admissions-year="${builtYear}">${renderToString(createElement(App, { path: page.path }))}</div>`,
-      ));
+    const html = rewriteForBase(
+      template
+        .replace(
+          '<title>Netaji Defence Academy</title>',
+          `<title>${escape(title)}</title>\n${metadata}`,
+        )
+        .replace(
+          '<div id="root"></div>',
+          `<div id="root" data-admissions-year="${builtYear}">${renderToString(createElement(App, { path: page.path }))}</div>`,
+        ),
+    );
     const directory = `dist${page.path === '/' ? '' : page.path}`;
     await mkdir(directory, { recursive: true });
     await writeFile(`${directory}/index.html`, html);
@@ -100,10 +108,12 @@ try {
 
   await writeFile(
     'dist/404.html',
-    rewriteForBase(template.replace(
-      '<div id="root"></div>',
-      `<div id="root" data-admissions-year="${builtYear}">${renderToString(createElement(App, { path: '/404' }))}</div>`,
-    )),
+    rewriteForBase(
+      template.replace(
+        '<div id="root"></div>',
+        `<div id="root" data-admissions-year="${builtYear}">${renderToString(createElement(App, { path: '/404' }))}</div>`,
+      ),
+    ),
   );
   await writeFile(
     'dist/robots.txt',

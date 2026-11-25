@@ -12,6 +12,8 @@ import Hostel from './pages/Hostel';
 import Notifications from './pages/Notifications';
 import Registration from './pages/Registration';
 import Contact from './pages/Contact';
+import Achievements from './pages/Achievements';
+import CoursesPoster from './pages/CoursesPoster';
 
 const components = {
   '/': Home,
@@ -24,13 +26,16 @@ const components = {
   '/notifications': Notifications,
   '/registration': Registration,
   '/contact': Contact,
+  '/achievements': Achievements,
+  '/courses-poster': CoursesPoster,
 };
 
 export default function App({ path }: { path: string }) {
-  const normalized = path
-    .replace(/^\/dist(?:\/index\.html)?/, '')
-    .replace(/\/index\.html$/, '')
-    .replace(/\/$/, '') || '/';
+  const normalized =
+    path
+      .replace(/^\/dist(?:\/index\.html)?/, '')
+      .replace(/\/index\.html$/, '')
+      .replace(/\/$/, '') || '/';
   const page = pages.find((item) => item.path === normalized);
   const Content = components[normalized as keyof typeof components];
 

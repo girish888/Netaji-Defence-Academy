@@ -10,6 +10,15 @@ export default function Courses() {
           <CourseCard key={course.id} course={course} />
         ))}
       </div>
+      <div className="section-cta">
+        <div>
+          <p className="eyebrow">PROMOTIONAL COURSE GUIDE</p>
+          <h2>See every pathway by qualification and age.</h2>
+        </div>
+        <a className="button button-secondary" href="/courses-poster">
+          View complete course poster <ArrowUpRight size={17} />
+        </a>
+      </div>
       <div className="course-details">
         {courses
           .filter((course) => course.id !== 'others')
@@ -21,6 +30,9 @@ export default function Courses() {
                 <h2>{course.name}</h2>
                 <p>{course.description}</p>
                 <p className="subject-line">{course.subjects}</p>
+                <p className="age-criteria">
+                  <strong>Age guidance:</strong> {course.ageCriteria}
+                </p>
                 <p className="fine-print">
                   Topics are an orientation guide. Confirm the actual academy syllabus,
                   batch availability and applicable official eligibility before admission.

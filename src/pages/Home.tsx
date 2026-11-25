@@ -13,7 +13,7 @@ import AdmissionsYear from '../components/AdmissionsYear';
 import { NoticeList } from './Notifications';
 
 export default function Home() {
-  const homeOrder = ['nda', 'army', 'navy', 'air-force', 'police', 'others'];
+  const homeOrder = ['nda', 'army', 'navy', 'air-force', 'police', 'ssc-gd', 'others'];
 
   return (
     <>
@@ -106,7 +106,7 @@ export default function Home() {
         <div className="container purpose-grid">
           <div className="purpose-art">
             <img
-              src="/images/optimized/1000666717.webp"
+              src="/images/optimized/NDA3.jpeg"
               alt="Academy reference artwork supplied by the client"
               loading="lazy"
               width="1280"
