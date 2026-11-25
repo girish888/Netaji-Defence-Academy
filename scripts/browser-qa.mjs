@@ -12,8 +12,10 @@ const routes = [
   '/',
   '/about',
   '/courses',
+  '/courses-poster',
   '/courses/others',
   '/training',
+  '/achievements',
   '/gallery',
   '/hostel',
   '/notifications',
@@ -37,21 +39,23 @@ try {
         ),
         `${route} overflows at ${width}px`,
       );
-      for (const image of await page.locator('img').all())
+      for (const image of await page.locator('img').all()) {
+        await image.evaluate((node) => {
+          node.loading = 'eager';
+          node.scrollIntoView({ block: 'center' });
+        });
+        await page.waitForTimeout(100);
         assert.ok(
           await image.evaluate((node) => node.complete && node.naturalWidth > 0),
           `Broken image on ${route}`,
         );
+      }
       results.push({ route, width, status: 'PASS' });
     }
   }
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('http://127.0.0.1:4173/');
-  await page.getByRole('button', { name: 'Open navigation' }).click();
-  await page
-    .getByRole('navigation', { name: 'Main navigation' })
-    .getByRole('link', { name: 'Gallery', exact: true })
-    .click();
+  await page.locator('a[href="/gallery"]').last().click();
   await page.getByRole('button', { name: 'Classrooms', exact: true }).click();
   assert.equal(await page.locator('.gallery-item').count(), 1);
   await page.locator('.gallery-item').click();
@@ -71,12 +75,12 @@ try {
     'Educational Qualification': 'Class 12',
     Profession: 'Student',
     'Email ID': 'test@example.invalid',
-    State: 'Test state',
     District: 'Test district',
   };
   for (const [name, value] of Object.entries(values)) {
     await page.locator(`input[name="${name}"]`).fill(value);
   }
+  await page.locator('select[name="State"]').selectOption({ index: 1 });
   await page
     .locator('select[name="Preferred Course"]')
     .selectOption({ label: 'NDA Training' });

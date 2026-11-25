@@ -6,6 +6,7 @@ const routes = [
   '/',
   '/about',
   '/courses',
+  '/courses-poster',
   '/courses/others',
   '/training',
   '/achievements',

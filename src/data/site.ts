@@ -1,12 +1,13 @@
 export const academy = {
   name: 'Netaji Defence Academy',
   tagline: 'Your Dream, Our Mission, One Nation',
-  // Populate only with client-confirmed details before enabling public enquiries.
-  whatsapp: '919505222219',
-  phone: '9505222219',
-  email: '',
-  address: '',
-  mapUrl: '',
+  // Values are supplied only at build time after client confirmation.
+  // Never put API keys or private credentials in VITE_* variables: browser code is public.
+  whatsapp: import.meta.env.VITE_ACADEMY_WHATSAPP ?? '',
+  phone: import.meta.env.VITE_ACADEMY_PHONE ?? '',
+  email: import.meta.env.VITE_ACADEMY_EMAIL ?? '',
+  address: import.meta.env.VITE_ACADEMY_ADDRESS ?? '',
+  mapUrl: import.meta.env.VITE_ACADEMY_MAP_URL ?? '',
 };
 
 export const pages = [

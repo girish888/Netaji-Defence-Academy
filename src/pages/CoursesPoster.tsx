@@ -1,12 +1,5 @@
-import {
-  ArrowRight,
-  BookOpen,
-  Dumbbell,
-  MapPin,
-  Phone,
-  ShieldCheck,
-  Users,
-} from 'lucide-react';
+import { ArrowRight, BookOpen, Dumbbell, MapPin, ShieldCheck, Users } from 'lucide-react';
+import { academy } from '../data/site';
 
 const categories = [
   {
@@ -210,25 +203,14 @@ export default function CoursesPoster() {
           <p>Serve the nation with pride.</p>
         </div>
         <div className="poster-contact-details">
-          <a href="tel:8977716831">
-            <Phone size={20} /> 8977716831
-          </a>
-          <a href="tel:8977716832">
-            <Phone size={20} /> 8977716832
-          </a>
-          <p>
-            <MapPin size={21} /> THARAMATHIPET ROAD,
-            <br />
-            OPPOSITE INDIAN OIL PETROL BUNK,
-            <br />
-            MANGO MEDOW RESORT,
-            <br />
-            GOWRELLY VILLAGE,
-            <br />
-            R.R DISTRICT,
-            <br />
-            HYD, TELANGANA - 501 505
-          </p>
+          {academy.phone && <a href={`tel:${academy.phone}`}>{academy.phone}</a>}
+          {academy.address ? (
+            <p>
+              <MapPin size={21} /> {academy.address}
+            </p>
+          ) : (
+            <p>Contact details will appear after academy confirmation.</p>
+          )}
         </div>
       </section>
       <div className="poster-footer">YOUR DREAM ★ OUR MISSION ★ NATION&apos;S PRIDE</div>

@@ -8,6 +8,7 @@ const types = {
   '.css': 'text/css',
   '.js': 'text/javascript',
   '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
   '.json': 'application/json',
   '.xml': 'application/xml',
