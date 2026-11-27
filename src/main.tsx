@@ -17,7 +17,10 @@ if (container.hasChildNodes()) {
 // Vite prefixes built assets, but application-authored links and image paths
 // also need the repository base when hosted on a GitHub Pages project site.
 // Keep this active after hydration so React rerenders cannot restore root URLs.
-const basePath = new URL(import.meta.env.BASE_URL, window.location.origin).pathname.replace(/\/+$/, '');
+const basePath = new URL(
+  import.meta.env.BASE_URL,
+  window.location.origin,
+).pathname.replace(/\/+$/, '');
 
 function applyGitHubPagesBase(element: Element) {
   if (!basePath) return;
