@@ -1,8 +1,45 @@
+import { useRef, type PointerEvent } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { academy } from '../data/site';
 import AdmissionsYear from './AdmissionsYear';
 
 export default function Header({ path }: { path: string }) {
+  const navigationRef = useRef<HTMLElement>(null);
+
+  const handleNavigationPointerMove = (event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType !== 'mouse' || !navigationRef.current) return;
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+    const y = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
+    const tiltX = (0.5 - y) * 5;
+    const tiltY = (x - 0.5) * 7;
+
+    navigationRef.current.style.setProperty('--bubble-glow-x', `${x * 100}%`);
+    navigationRef.current.style.setProperty('--bubble-glow-y', `${y * 100}%`);
+    navigationRef.current.style.setProperty('--bubble-tilt-x', `${tiltX}deg`);
+    navigationRef.current.style.setProperty('--bubble-tilt-y', `${tiltY}deg`);
+    navigationRef.current.style.setProperty(
+      '--bubble-scale-x',
+      `${1 + (x - 0.5) * 0.012}`,
+    );
+    navigationRef.current.style.setProperty(
+      '--bubble-scale-y',
+      `${1 + (0.5 - y) * 0.012}`,
+    );
+  };
+
+  const resetNavigationBubble = () => {
+    if (!navigationRef.current) return;
+
+    navigationRef.current.style.setProperty('--bubble-glow-x', '50%');
+    navigationRef.current.style.setProperty('--bubble-glow-y', '0%');
+    navigationRef.current.style.setProperty('--bubble-tilt-x', '0deg');
+    navigationRef.current.style.setProperty('--bubble-tilt-y', '0deg');
+    navigationRef.current.style.setProperty('--bubble-scale-x', '1');
+    navigationRef.current.style.setProperty('--bubble-scale-y', '1');
+  };
+
   const navigation = [
     { label: 'Home', href: '/' },
     { label: 'About Us', href: '/about' },
@@ -36,7 +73,13 @@ export default function Header({ path }: { path: string }) {
             <small>DEFENCE ACADEMY</small>
           </span>
         </a>
-        <nav className="navigation" aria-label="Main navigation">
+        <nav
+          ref={navigationRef}
+          className="navigation"
+          aria-label="Main navigation"
+          onPointerMove={handleNavigationPointerMove}
+          onPointerLeave={resetNavigationBubble}
+        >
           {navigation.map((item) => (
             <a
               key={item.href}
