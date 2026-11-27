@@ -27,6 +27,13 @@ jobs:
       - run: npm run build
         env:
           SITE_URL: ${{ vars.SITE_URL }}
+          VITE_ACADEMY_WHATSAPP: ${{ vars.VITE_ACADEMY_WHATSAPP }}
+          VITE_ACADEMY_PHONE: ${{ vars.VITE_ACADEMY_PHONE }}
+          VITE_ACADEMY_SECONDARY_PHONE: ${{ vars.VITE_ACADEMY_SECONDARY_PHONE }}
+          VITE_ACADEMY_EMAIL: ${{ vars.VITE_ACADEMY_EMAIL }}
+          VITE_ACADEMY_ADDRESS: ${{ vars.VITE_ACADEMY_ADDRESS }}
+          VITE_ACADEMY_MAP_URL: ${{ vars.VITE_ACADEMY_MAP_URL }}
+          VITE_ACADEMY_MAP_EMBED_URL: ${{ vars.VITE_ACADEMY_MAP_EMBED_URL }}
       - run: node scripts/check-build.mjs
       - uses: cloudflare/wrangler-action@v3
         with:

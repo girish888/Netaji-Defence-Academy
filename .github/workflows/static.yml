@@ -49,6 +49,13 @@ jobs:
         env:
           PUBLIC_BASE: /Netaji-Defence-Academy
           SITE_URL: https://girish888.github.io
+          VITE_ACADEMY_WHATSAPP: ${{ vars.VITE_ACADEMY_WHATSAPP }}
+          VITE_ACADEMY_PHONE: ${{ vars.VITE_ACADEMY_PHONE }}
+          VITE_ACADEMY_SECONDARY_PHONE: ${{ vars.VITE_ACADEMY_SECONDARY_PHONE }}
+          VITE_ACADEMY_EMAIL: ${{ vars.VITE_ACADEMY_EMAIL }}
+          VITE_ACADEMY_ADDRESS: ${{ vars.VITE_ACADEMY_ADDRESS }}
+          VITE_ACADEMY_MAP_URL: ${{ vars.VITE_ACADEMY_MAP_URL }}
+          VITE_ACADEMY_MAP_EMBED_URL: ${{ vars.VITE_ACADEMY_MAP_EMBED_URL }}
 
       - name: Validate generated website
         run: node scripts/check-build.mjs
