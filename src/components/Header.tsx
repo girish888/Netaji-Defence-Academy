@@ -6,9 +6,12 @@ export default function Header({ path }: { path: string }) {
   const navigation = [
     { label: 'Home', href: '/' },
     { label: 'About Us', href: '/about' },
+    { label: 'Our Courses', href: '/courses' },
     { label: 'Training & Facilities', href: '/training' },
+    { label: 'Gallery', href: '/gallery' },
     { label: 'Hostel & Food', href: '/hostel' },
     { label: 'Achievements', href: '/achievements' },
+    { label: 'Notifications', href: '/notifications' },
     { label: 'Contact Us', href: '/contact' },
   ];
 

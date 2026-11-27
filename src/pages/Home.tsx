@@ -11,9 +11,10 @@ import CourseCard from '../components/CourseCard';
 import { courses } from '../data/site';
 import AdmissionsYear from '../components/AdmissionsYear';
 import { NoticeList } from './Notifications';
+import LocationMap from '../components/LocationMap';
 
 export default function Home() {
-  const homeOrder = ['nda', 'army', 'navy', 'air-force', 'police', 'ssc-gd', 'others'];
+  const homeOrder = ['nda', 'navy', 'air-force', 'army', 'police', 'ssc-gd', 'others'];
 
   return (
     <>
@@ -168,6 +169,17 @@ export default function Home() {
           Begin your enquiry <ArrowUpRight size={19} />
         </a>
         <ShieldCheck className="enquiry-watermark" size={210} strokeWidth={0.6} />
+      </section>
+      <section className="section home-location-section">
+        <div className="container">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">VISIT US</p>
+              <h2>Find your way to the academy.</h2>
+            </div>
+          </div>
+          <LocationMap compact />
+        </div>
       </section>
     </>
   );

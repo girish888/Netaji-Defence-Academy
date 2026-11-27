@@ -1,30 +1,37 @@
 import { Phone, Mail, MapPin, ArrowUpRight, MessageCircle } from 'lucide-react';
 import { academy } from '../data/site';
+import LocationMap from '../components/LocationMap';
 
 export default function Contact() {
   const contacts = [
     {
       icon: Phone,
-      title: 'Call the academy',
-      value: academy.phone || 'Phone number awaiting confirmation',
-      href: academy.phone ? `tel:${academy.phone}` : '',
+      title: 'Anjaneyulu Sir',
+      value: academy.phone,
+      href: `tel:${academy.phone}`,
+    },
+    {
+      icon: Phone,
+      title: 'Krishna Sir',
+      value: academy.secondaryPhone,
+      href: `tel:${academy.secondaryPhone}`,
     },
     {
       icon: MessageCircle,
-      title: 'WhatsApp',
-      value: academy.whatsapp || 'WhatsApp number awaiting confirmation',
-      href: academy.whatsapp ? `https://wa.me/${academy.whatsapp}` : '',
+      title: 'WhatsApp — Anjaneyulu Sir',
+      value: academy.whatsapp,
+      href: `https://wa.me/${academy.whatsapp}`,
     },
     {
       icon: Mail,
       title: 'Business email',
-      value: academy.email || 'Business email awaiting confirmation',
-      href: academy.email ? `mailto:${academy.email}` : '',
+      value: academy.email,
+      href: `mailto:${academy.email}`,
     },
     {
       icon: MapPin,
       title: 'Visit the academy',
-      value: academy.address || 'Exact academy address awaiting confirmation',
+      value: academy.address,
       href: academy.mapUrl,
     },
   ];
@@ -54,24 +61,7 @@ export default function Contact() {
             Prepare an admission enquiry <ArrowUpRight size={18} />
           </a>
         </div>
-        <div className="map-placeholder">
-          <MapPin size={52} strokeWidth={1} />
-          <h3>Find us here — soon.</h3>
-          <p>
-            The exact map location must be confirmed by the academy. A map is not shown to
-            avoid directing you to the wrong place.
-          </p>
-          {academy.mapUrl && (
-            <a
-              className="button button-outline"
-              href={academy.mapUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Get directions <ArrowUpRight size={17} />
-            </a>
-          )}
-        </div>
+        <LocationMap />
       </div>
     </section>
   );
