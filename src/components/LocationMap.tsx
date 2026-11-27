@@ -10,6 +10,9 @@ export default function LocationMap({ compact = false }: { compact?: boolean }) 
           src={academy.mapEmbedUrl}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
+          onError={() => {
+            console.error('Google Maps embed failed to load.', academy.mapEmbedUrl);
+          }}
         />
       </div>
       <div className="location-map-info">

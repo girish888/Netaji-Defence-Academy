@@ -14,9 +14,9 @@ export const academy = {
   phone: import.meta.env.VITE_ACADEMY_PHONE ?? '',
   secondaryPhone: import.meta.env.VITE_ACADEMY_SECONDARY_PHONE ?? '',
   email: import.meta.env.VITE_ACADEMY_EMAIL ?? '',
-  address: import.meta.env.VITE_ACADEMY_ADDRESS ?? academyAddress,
-  mapUrl: import.meta.env.VITE_ACADEMY_MAP_URL ?? academyMapUrl,
-  mapEmbedUrl: import.meta.env.VITE_ACADEMY_MAP_EMBED_URL ?? academyMapEmbedUrl,
+  address: import.meta.env.VITE_ACADEMY_ADDRESS || academyAddress,
+  mapUrl: import.meta.env.VITE_ACADEMY_MAP_URL || academyMapUrl,
+  mapEmbedUrl: import.meta.env.VITE_ACADEMY_MAP_EMBED_URL || academyMapEmbedUrl,
 };
 
 export const pages = [
