@@ -1,3 +1,10 @@
+const academyAddress =
+  '9M9G+46, near by Mango Meadow Resort Netaji Defence Academy, Gowrelly, Telangana 501505';
+const academyMapUrl =
+  'https://www.google.com/maps/place/9M9G%2B46,+near+by+Mango+Meadow+Resort+Netaji+Defence+Academy,+Gowrelly,+Telangana+501505/@17.3679508,78.6753043,76m/data=!3m1!1e3!4m12!1m5!3m4!2zMTfCsDIyJzAzLjkiTiA3OMKwNDAnMzEuNCJF!8m2!3d17.3677551!4d78.6753796!3m5!1s0x3bcb7541c19a9a9b:0xf4ed948024b5dee7!8m2!3d17.3678165!4d78.6754476!16s%2Fg%2F11thx8fylk?hl=en&entry=ttu&g_ep=EgoyMDI2MTEyMy4wIKXMDSoASAFQAw%3D%3D';
+const academyMapEmbedUrl =
+  'https://www.google.com/maps?q=17.3678165,78.6754476&z=17&output=embed';
+
 export const academy = {
   name: 'Netaji Defence Academy',
   tagline: 'Your Dream, Our Mission, One Nation',
@@ -7,9 +14,9 @@ export const academy = {
   phone: import.meta.env.VITE_ACADEMY_PHONE ?? '',
   secondaryPhone: import.meta.env.VITE_ACADEMY_SECONDARY_PHONE ?? '',
   email: import.meta.env.VITE_ACADEMY_EMAIL ?? '',
-  address: import.meta.env.VITE_ACADEMY_ADDRESS ?? '',
-  mapUrl: import.meta.env.VITE_ACADEMY_MAP_URL ?? '',
-  mapEmbedUrl: import.meta.env.VITE_ACADEMY_MAP_EMBED_URL ?? '',
+  address: import.meta.env.VITE_ACADEMY_ADDRESS ?? academyAddress,
+  mapUrl: import.meta.env.VITE_ACADEMY_MAP_URL ?? academyMapUrl,
+  mapEmbedUrl: import.meta.env.VITE_ACADEMY_MAP_EMBED_URL ?? academyMapEmbedUrl,
 };
 
 export const pages = [

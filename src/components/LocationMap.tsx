@@ -20,12 +20,7 @@ export default function LocationMap({ compact = false }: { compact?: boolean }) 
           </h3>
           <p>{academy.address}</p>
         </div>
-        <a
-          className="button button-outline"
-          href={academy.mapUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a className="button button-outline" href={academy.mapUrl}>
           <svg
             className="google-maps-logo"
             viewBox="0 0 24 24"
