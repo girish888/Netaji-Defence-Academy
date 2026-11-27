@@ -205,7 +205,7 @@ export const galleryImages = [
     alt: 'Students in a classroom with Indian Defence Academy branding; supplied reference only',
   },
   {
-    src: '/images/optimized/NDA3.jpeg',
+    src: '/images/originals/NDA3.jpeg',
     title: 'Netaji Defence Academy — building exterior',
     category: 'Campus',
     alt: 'Building exterior with a Netaji Defence Academy sign above the entrance',

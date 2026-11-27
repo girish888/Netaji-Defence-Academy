@@ -1,7 +1,8 @@
 import { createServer } from 'vite';
-import { renderToString } from 'react-dom/server';
+import { renderToPipeableStream } from 'react-dom/server';
 import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { PassThrough } from 'node:stream';
 
 const server = await createServer({
   server: { middlewareMode: true },
@@ -15,17 +16,31 @@ try {
   const { admissionsYear } = await server.ssrLoadModule('/src/lib/logic.ts');
   const builtYear = admissionsYear();
   const template = await readFile('dist/index.html', 'utf8');
+  const renderApp = (element) =>
+    new Promise((resolve, reject) => {
+      let html = '';
+      const output = new PassThrough();
+      output.on('data', (chunk) => {
+        html += chunk.toString();
+      });
+      output.on('end', () => resolve(html));
+      const { pipe } = renderToPipeableStream(element, {
+        onAllReady() {
+          pipe(output);
+        },
+        onError(error) {
+          reject(error);
+        },
+      });
+    });
   const publicBase = (process.env.PUBLIC_BASE || '').replace(/\/+$/, '');
   const rewriteForBase = (value) => {
     if (!publicBase) return value;
     const basePath = publicBase.replace(/^\//, '');
-    return value.replace(
-      /\b(href|src)="\/(?!\/)([^"]*)"/g,
-      (match, attribute, path) => {
-        if (path === basePath || path.startsWith(`${basePath}/`)) return match;
-        return `${attribute}="${publicBase}/${path}"`;
-      },
-    );
+    return value.replace(/\b(href|src)="\/(?!\/)([^"]*)"/g, (match, attribute, path) => {
+      if (path === basePath || path.startsWith(`${basePath}/`)) return match;
+      return `${attribute}="${publicBase}/${path}"`;
+    });
   };
   if (publicBase) {
     for (const asset of await readdir('dist/assets')) {
@@ -69,9 +84,7 @@ try {
       page.path === '/'
         ? 'Netaji Defence Academy | NDA, Army, Navy & Police Training'
         : `${page.label} | Netaji Defence Academy`;
-    const canonicalPath = `${publicBase}${
-      page.path === '/' ? '/' : `${page.path}/`
-    }`;
+    const canonicalPath = `${publicBase}${page.path === '/' ? '/' : `${page.path}/`}`;
     const canonical = origin ? `${origin}${canonicalPath}` : '';
     const metadata = [
       ...(page.path === '/'
@@ -100,7 +113,7 @@ try {
         )
         .replace(
           '<div id="root"></div>',
-          `<div id="root" data-admissions-year="${builtYear}">${renderToString(createElement(App, { path: page.path }))}</div>`,
+          `<div id="root" data-admissions-year="${builtYear}">${await renderApp(createElement(App, { path: page.path }))}</div>`,
         ),
     );
     const directory = `dist${page.path === '/' ? '' : page.path}`;
@@ -113,7 +126,7 @@ try {
     rewriteForBase(
       template.replace(
         '<div id="root"></div>',
-        `<div id="root" data-admissions-year="${builtYear}">${renderToString(createElement(App, { path: '/404' }))}</div>`,
+        `<div id="root" data-admissions-year="${builtYear}">${await renderApp(createElement(App, { path: '/404' }))}</div>`,
       ),
     ),
   );

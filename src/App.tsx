@@ -2,18 +2,20 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import PageIntro from './components/PageIntro';
 import { pages } from './data/site';
-import Home from './pages/Home';
-import About from './pages/About';
-import Courses from './pages/Courses';
-import OtherCourses from './pages/OtherCourses';
-import Training from './pages/Training';
-import Gallery from './pages/Gallery';
-import Hostel from './pages/Hostel';
-import Notifications from './pages/Notifications';
-import Registration from './pages/Registration';
-import Contact from './pages/Contact';
-import Achievements from './pages/Achievements';
-import CoursesPoster from './pages/CoursesPoster';
+import { lazy, Suspense } from 'react';
+
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Courses = lazy(() => import('./pages/Courses'));
+const OtherCourses = lazy(() => import('./pages/OtherCourses'));
+const Training = lazy(() => import('./pages/Training'));
+const Gallery = lazy(() => import('./pages/Gallery'));
+const Hostel = lazy(() => import('./pages/Hostel'));
+const Notifications = lazy(() => import('./pages/Notifications'));
+const Registration = lazy(() => import('./pages/Registration'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Achievements = lazy(() => import('./pages/Achievements'));
+const CoursesPoster = lazy(() => import('./pages/CoursesPoster'));
 
 const components = {
   '/': Home,
@@ -34,11 +36,12 @@ export default function App({ path }: { path: string }) {
   // GitHub Pages project sites include the repository name in the browser path.
   // Strip Vite's configured base before resolving the application's route.
   const basePath = import.meta.env.BASE_URL.replace(/\/+$/, '');
-  const appPath = basePath && path.startsWith(`${basePath}/`)
-    ? path.slice(basePath.length)
-    : path === basePath
-      ? '/'
-      : path;
+  const appPath =
+    basePath && path.startsWith(`${basePath}/`)
+      ? path.slice(basePath.length)
+      : path === basePath
+        ? '/'
+        : path;
   const normalized =
     appPath
       .replace(/^\/dist(?:\/index\.html)?/, '')
@@ -54,26 +57,35 @@ export default function App({ path }: { path: string }) {
       </a>
       <Header path={normalized} />
       <main id="main">
-        {page && Content ? (
-          <>
-            {normalized !== '/' && (
-              <PageIntro
-                eyebrow={page.label.toUpperCase()}
-                title={page.title}
-                description={page.description}
-              />
-            )}
-            <Content />
-          </>
-        ) : (
-          <section className="section container">
-            <h1>Page not found</h1>
-            <p>This page is not available.</p>
-            <a className="button" href="/">
-              Return home
-            </a>
-          </section>
-        )}
+        <Suspense
+          fallback={
+            <section className="section container route-loading" aria-live="polite">
+              <span className="route-loading-spinner" aria-hidden="true" />
+              <span>Loading page…</span>
+            </section>
+          }
+        >
+          {page && Content ? (
+            <>
+              {normalized !== '/' && (
+                <PageIntro
+                  eyebrow={page.label.toUpperCase()}
+                  title={page.title}
+                  description={page.description}
+                />
+              )}
+              <Content />
+            </>
+          ) : (
+            <section className="section container">
+              <h1>Page not found</h1>
+              <p>This page is not available.</p>
+              <a className="button" href="/">
+                Return home
+              </a>
+            </section>
+          )}
+        </Suspense>
       </main>
       <Footer />
     </>

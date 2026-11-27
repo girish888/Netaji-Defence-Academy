@@ -12,8 +12,11 @@ const icons = {
 
 const courseImages: Record<string, { src: string; alt: string }> = {
   nda: { src: '/images/optimized/nda.jpg', alt: 'National Defence Academy cadets' },
-  navy: { src: '/images/optimized/navy.jpg', alt: 'Indian Navy personnel' },
-  'air-force': { src: '/images/optimized/air.jpg', alt: 'Indian Air Force personnel and aircraft' },
+  navy: { src: '/images/originals/navy.jpg', alt: 'Indian Navy personnel' },
+  'air-force': {
+    src: '/images/optimized/air.jpg',
+    alt: 'Indian Air Force personnel and aircraft',
+  },
   army: { src: '/images/optimized/army.jpg', alt: 'Indian Army soldier' },
   police: { src: '/images/optimized/police.jpg', alt: 'Police and defence cadets' },
   'ssc-gd': { src: '/images/optimized/ssc gd.jpg', alt: 'SSC GD preparation reference' },

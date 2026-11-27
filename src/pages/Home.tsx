@@ -107,7 +107,7 @@ export default function Home() {
         <div className="container purpose-grid">
           <div className="purpose-art">
             <img
-              src="/images/optimized/NDA3.jpeg"
+              src="/images/originals/NDA3.jpeg"
               alt="Academy reference artwork supplied by the client"
               loading="lazy"
               width="1280"
