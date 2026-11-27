@@ -1490,6 +1490,12 @@ textarea {
 }
 .location-map-info h3 svg { color: var(--secondary); }
 .location-map-info p:not(.eyebrow) { max-width: 650px; margin-bottom: 0; color: var(--text-secondary); }
+.google-maps-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex: 0 0 24px;
+}
 .location-map-compact { grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr); gap: 0; }
 .location-map-compact .location-map-frame,
 .location-map-compact .location-map-frame iframe { height: 360px; }
@@ -2279,6 +2285,8 @@ p {
 
 .course-card {
   padding: 32px 30px 25px;
+  padding-bottom: calc(25px + 5%);
+  overflow: hidden;
 }
 
 .course-card h3 {
@@ -2385,6 +2393,11 @@ textarea {
 
   .course-card {
     padding: 23px 18px 18px;
+  }
+  .course-card-image {
+    width: calc(100% + 36px);
+    height: 170px;
+    margin: -23px -18px 20px;
   }
 
   .course-card h3 {
@@ -2591,5 +2604,27 @@ textarea {
   .navigation > a {
     font-size: 12px;
     padding-inline: 10px;
+  }
+}
+
+/* Course imagery follows the final card spacing rules above. */
+.course-card-image {
+  width: calc(100% + 60px);
+  max-width: none;
+  height: 187px;
+  margin: -32px -30px 24px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+@media (max-width: 767px) {
+  .course-card {
+    padding-bottom: calc(18px + 5%);
+  }
+
+  .course-card-image {
+    width: calc(100% + 36px);
+    height: 187px;
+    margin: -23px -18px 20px;
   }
 }

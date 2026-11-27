@@ -26,6 +26,11 @@ export default function LocationMap({ compact = false }: { compact?: boolean }) 
           target="_blank"
           rel="noopener noreferrer"
         >
+          <img
+            className="google-maps-logo"
+            src="https://www.google.com/images/branding/product/ico/maps15_bn64dp.png"
+            alt="Google Maps"
+          />
           Open in Google Maps <ArrowUpRight size={17} />
         </a>
       </div>
